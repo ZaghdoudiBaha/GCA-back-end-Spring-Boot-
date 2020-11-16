@@ -3,21 +3,38 @@ package de.tekup.gca.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import de.tekup.gca.entities.AppRole;
 import de.tekup.gca.entities.User;
+import de.tekup.gca.repository.RoleRepository;
 import de.tekup.gca.repository.UserRepo;
 
 @Service
+@Transactional
 public class UserImpl implements UserService {
 	
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	private RoleRepository roleRepo;
 
 	@Override
 	public User addAccount(User user) {
-		
-			return userRepo.save(user);
+		System.out.println(user);
+		User u;
+		 String hashPw = bCryptPasswordEncoder.encode(user.getPassword());
+		 user.setPassword(hashPw);
+		 u = userRepo.save(user);
+		 
+		 System.out.println(user);
+		 return u;
 	}
 
 	@Override
@@ -84,6 +101,24 @@ public class UserImpl implements UserService {
 			userRepo.save(user);
 		}
 		
+	}
+
+	@Override
+	public AppRole saveRole(AppRole role) {
+		return roleRepo.save(role);
+	}
+
+	@Override 
+	public void addRoleToUser(String login, String roleName) {
+		AppRole role = roleRepo.findByRoleName(roleName);
+		User user = userRepo.findByLogin(login);
+		user.getRoles().add(role);
+		
+	}
+
+	@Override
+	public User findUserByLogin(String login) {
+		return userRepo.findByLogin(login);
 	}
 
 }

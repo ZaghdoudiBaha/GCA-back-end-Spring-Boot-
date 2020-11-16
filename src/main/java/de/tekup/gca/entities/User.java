@@ -1,13 +1,16 @@
 package de.tekup.gca.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -25,6 +28,7 @@ public class User {
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
 	private Long id;
+	@Column (unique = true)
 	private String login;
 	private String password;
 	private String nom;
@@ -32,7 +36,6 @@ public class User {
 	private String mail;
 	private String tel;
 	private boolean accepted;
-	
 	
 
 	public User(String login, String password, String nom, String prenom, String mail, String tel, boolean accepted) {
@@ -45,6 +48,10 @@ public class User {
 		this.tel = tel;
 		this.accepted = accepted;
 	}
+	
+	@ManyToMany (fetch = FetchType.EAGER)
+	private List<AppRole> roles = new ArrayList<>();
+	
 
 	@OneToMany (mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	//@JsonBackReference

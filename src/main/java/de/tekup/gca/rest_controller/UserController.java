@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import de.tekup.gca.entities.Absence;
 import de.tekup.gca.entities.User;
 import de.tekup.gca.entities.UserPassword;
+import de.tekup.gca.models.RoleLoginModel;
 import de.tekup.gca.services.UserService;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value="/api/user")
 public class UserController {
 	
@@ -40,7 +41,7 @@ public class UserController {
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 		}	
 	}
-	
+
 	@GetMapping(value = "/list")
 	public List<User> userlist() { //  @RequestBody User user : eli jeni mel front
 		
@@ -141,5 +142,15 @@ public class UserController {
 		
 	}
 	
+	@PostMapping(value = "/addRoleToUser")
+	public ResponseEntity<User> userResetPass(@RequestBody RoleLoginModel userRole) {
+		try {
+			 userService.addRoleToUser(userRole.getLogin(), userRole.getRoleName());
+			 return new ResponseEntity<User>(HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
 	
 }

@@ -44,8 +44,7 @@ public class CongeImpl implements CongeService{
 
 	@Override
 	public Conge addConge(Conge conge) {
-		return congeRepo.save(conge);
-		
+		return congeRepo.save(conge);	
 	}
 
 	@Override

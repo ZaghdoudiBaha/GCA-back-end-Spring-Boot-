@@ -2,6 +2,7 @@ package de.tekup.gca.services;
 
 import java.util.List;
 
+import de.tekup.gca.entities.AppRole;
 import de.tekup.gca.entities.User;
 
 public interface UserService {
@@ -16,6 +17,10 @@ public interface UserService {
 	public void resetPassword(String newPwd ,String oldPwd, Long user_id);
 	public void acceptUser(Long user_id);
 	public void refuseUser(Long user_id);
+	public AppRole saveRole(AppRole role);
+	public void addRoleToUser (String login, String roleName);
+	public User findUserByLogin (String login);
+	
 	
 	
 	
