@@ -65,7 +65,7 @@ public class UserImpl implements UserService {
 
 
 	@Override
-	public void acceptUser(Long user_id) {
+	public void activerUser(Long user_id) {
 		
 		User user = userRepo.findById(user_id).orElseThrow(() -> new RuntimeException("User not exist"));
 		if (!user.equals(null)) {
@@ -75,15 +75,19 @@ public class UserImpl implements UserService {
 	}
 
 	@Override
-	public void refuseUser(Long user_id) {
-
-			userRepo.deleteById(user_id);
+	public void desactiverUser(Long user_id) {
+		
+		User user = userRepo.findById(user_id).orElseThrow(() -> new RuntimeException("User not exist"));
+		if (!user.equals(null)) {
+			user.setAccepted(false);
+			userRepo.save(user);
+		}
+			
 	}
 	
 	@Override
 	public void resetPassword(String newPwd, Long user_id) {
 
-		
 		User user = userRepo.findById(user_id).orElseThrow(() -> new RuntimeException("User not exist"));
 		if (!user.equals(null)) {
 			user.setPassword(newPwd);
@@ -120,5 +124,9 @@ public class UserImpl implements UserService {
 	public User findUserByLogin(String login) {
 		return userRepo.findByLogin(login);
 	}
+	
+	
+	
+	
 
 }

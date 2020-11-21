@@ -26,10 +26,10 @@ public class CongeController {
 	@Autowired
 	private CongeService congeService;
 
-	@PostMapping(value="/accept")
-	public ResponseEntity<Conge> acceptConge(@RequestBody Conge conge) {
+	@PostMapping(value="/accept/{login}")
+	public ResponseEntity<Conge> acceptConge(@RequestBody Conge conge, @PathVariable String login) {
 		try {
-			congeService.acceptConge(conge);
+			congeService.acceptConge(conge,login);
 			return new ResponseEntity<Conge>(conge,HttpStatus.ACCEPTED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

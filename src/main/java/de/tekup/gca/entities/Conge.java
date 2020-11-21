@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,22 +24,20 @@ public class Conge {
 	private String raison;
 	private boolean confirmation;
 	private boolean payer;
-	private int SoldeConge;
 	
 	
 	@ManyToOne
 	private User user;
 
 
-	public Conge(LocalDate dateDebut, LocalDate dateFin, String raison, boolean confirmation, boolean payer,
-			int soldeConge, User user) {
+	public Conge(LocalDate dateDebut, LocalDate dateFin, String raison, boolean confirmation, boolean payer, User user) {
 		super();
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.raison = raison;
 		this.confirmation = confirmation;
 		this.payer = payer;
-		SoldeConge = soldeConge;
+		
 		this.user = user;
 	}
 	
